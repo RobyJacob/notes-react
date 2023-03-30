@@ -61,8 +61,8 @@ header {
 main {
     display: grid;
     height: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
     overflow: scroll;
     padding: 20px;
     /* border: 2px solid green; */
@@ -72,15 +72,20 @@ main {
     display: flex;
     border-radius: 10px;
     align-items: center;
-    width: 200px;
-    height: 118px;
-    padding: 20px;
+    justify-content: center;
+    padding: 15px;
     transition: transform .5s ease-in-out;
     cursor: pointer;
-    flex-wrap: wrap;
+}
+
+.note-title {
+    display: inline-block;
+    width: 300px;
     font-style: normal;
     font-weight: 400;
     color: #000000;
+    font-family: inherit;
+    overflow-wrap: break-word;
 }
 
 
@@ -114,6 +119,7 @@ main {
     margin-top: 42px;
     margin-bottom: 37px;
     color: #FFFFFF;
+    font-family: inherit;
 }
 
 .note-detail-body {
@@ -122,6 +128,51 @@ main {
     font-size: 23px;
     line-height: 31px;
     color: #FFFFFF;
+    font-family: inherit;
+}
+
+.new-note {
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid blue; */
+}
+
+.new-note-header {
+    display: flex;
+}
+
+#save-btn {
+    background-image: url("assets/save-icon.svg");
+}
+
+.form {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+#title-txtbox {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 65px;
+    background: none;
+    border: none;
+    color: #9A9A9A;
+    font-family: inherit;
+    margin-bottom: 40px;
+}
+
+#body-txtarea {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 31px;
+    background: none;
+    border: none;
+    color: #9A9A9A;
+    font-family: inherit;
+    resize: none;
 }
 
 .empty-note {
@@ -140,6 +191,7 @@ main {
     font-size: 20px;
     line-height: 27px;
     color: #FFFFFF;
+    font-family: inherit;
 }
 
 footer {
@@ -156,7 +208,6 @@ footer {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4), -5px 0px 10px rgba(0, 0, 0, 0.4);
     margin: 0 50px 50px auto;
     font-size: 48px;
-    z-index: 2;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -164,12 +215,14 @@ footer {
     transition: all 0.5s ease-in-out;
 }
 
-#header-search:hover, #header-info:hover, .back-btn:hover, #edit-btn:hover, footer:hover {
+#header-search:hover, #header-info:hover, .back-btn:hover, 
+#edit-btn:hover, footer:hover, #save-btn:hover {
     border: 2px solid skyblue;
     transform: scale(1.2);
 }
 
-#header-search:active, #header-info:active, .back-btn:active, #edit-btn:active, footer:active {
+#header-search:active, #header-info:active, .back-btn:active, 
+#edit-btn:active, footer:active, #save-btn:active {
     transform: scale(.98);
 }
 

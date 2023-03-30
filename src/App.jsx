@@ -7,53 +7,64 @@ import Footer from "./components/Footer";
 import EmptyNote from "./components/EmptyNote";
 import Please from 'pleasejs';
 import NoteDetail from "./components/NoteDetail";
+import NewNote from "./components/NewNote";
 
 export default function App() {
   const [notes, setNotes] = useState(dummyData)
   const [clickedNote, setClickedNote] = useState(0)
+  const [isNewNote, setIsNewNote] = useState(false)
+  const [newNote, setNewNote] = useState({
+    title: "",
+    body: ""
+  })
 
   function generateRandomHexColor() {
     return Please.make_color({format: "hex"})
   }
 
-  function addClick(noteId) {
+  function setClick(noteId) {
     setClickedNote(noteId)
-  }
-
-  function resetClick() {
-    setClickedNote(0)
   }
 
   return (
     <div className="container">
       <Header />
-      {
-        notes.length > 0 ?
-        <main>
-          {
-            clickedNote != 0 ?
-            <NoteDetail
-              key={clickedNote}
-              note={notes.filter(note => note.id === clickedNote)[0]}
-              onReturn={resetClick}
+      <main>
+        {
+          isNewNote ?
+            <NewNote 
+              onReturn={() => setIsNewNote(false)}
+              updateNewNote={setNewNote}
+              newNote={newNote}
+              saveNote={setNotes}
+              resetNewNote={() => setNewNote({
+                title: "",
+                body: ""
+              })}
             />
-            :
-            notes.map(note => {
-              let randomColor = generateRandomHexColor()
-
-              return <Note
-                key={note.id}
-                note={note} 
-                color={randomColor}
-                onClick={() => addClick(note.id)}
+          :
+          notes.length > 0 ?
+            clickedNote != 0 ?
+              <NoteDetail
+                note={notes.filter(note => note.id === clickedNote)[0]}
+                onReturn={() => setClickedNote(0)}
               />
-            })
-          }
-        </main>
-        :
-        <EmptyNote />
-      }
-      { clickedNote === 0 && <Footer /> }
+            :
+              notes.map(note => {
+                let randomColor = generateRandomHexColor()
+
+                return <Note
+                  key={note.id}
+                  note={note} 
+                  color={randomColor}
+                  onClick={() => setClick(note.id)}
+                />
+              })
+          :
+            <EmptyNote />
+        }
+      </main>
+      { clickedNote === 0 && !isNewNote && <Footer onClick={() => setIsNewNote(true)}/> }
     </div>
   )
 }

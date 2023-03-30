@@ -5,7 +5,9 @@ export default function Note(props) {
             style={{backgroundColor: props.color}}
             onClick={props.onClick}
         >
-            {props.note.title}
+            <span className="note-title">
+                {props.note.title}
+            </span>
         </div>
     )
 }

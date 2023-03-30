@@ -1,7 +1,7 @@
-export default function Footer() {
+export default function Footer(props) {
     return (
         <footer>
-            <div className="new-note">
+            <div onClick={props.onClick}>
                 +
             </div>
         </footer>

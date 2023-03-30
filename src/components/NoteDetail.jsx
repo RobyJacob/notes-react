@@ -1,5 +1,4 @@
 export default function NoteDetail(props) {
-    console.log(props)
     return (
         <div className="note-detail">
             <div className="note-detail-header">
