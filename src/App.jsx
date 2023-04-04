@@ -50,6 +50,7 @@ export default function App() {
               onReturn={() => setClickedNote(0)}
               setEditable={setIsEditable}
               setNote={setNewNote}
+              updateNotes={setNotes}
             />
           } else {
             return <EditNote
