@@ -1,5 +1,4 @@
 export default function EditNote(props) {
-    console.log(props)
     function saveNote() {
         if (props.note.title === "" || props.note.body === "") return
 
@@ -17,6 +16,7 @@ export default function EditNote(props) {
 
         props.setEditable(false)
         props.clickNote(props.newId)
+        props.reset()
     }
 
     function handleChange(evt) {
@@ -29,12 +29,17 @@ export default function EditNote(props) {
         })
     }
 
+    function onReturn() {
+        props.onReturn()
+        props.reset()
+    }
+
     return (
         <div className="edit-note">
             <div className="new-note-header">
                 <div 
                     className="control-btns back-btn"
-                    onClick={props.onReturn}
+                    onClick={onReturn}
                 ></div>
                 <div 
                     className="control-btns" 
@@ -43,13 +48,13 @@ export default function EditNote(props) {
                 ></div>
             </div>
             <div className="form">
-                <input 
+                <textarea 
                     type="text" 
-                    className="title-txtbox"
+                    className="title-txtarea"
                     name="title"
                     value={props.note.title}
                     onChange={handleChange}
-                />
+                ></textarea>
                 <textarea 
                     className="body-txtarea"
                     name="body"

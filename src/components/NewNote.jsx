@@ -41,14 +41,14 @@ export default function NewNote(props) {
                 ></div>
             </div>
             <div className="form">
-                <input 
+                <textarea 
                     type="text" 
                     placeholder="Title" 
-                    className="title-txtbox"
+                    className="title-txtarea"
                     name="title"
                     value={props.newNote.title}
                     onChange={handleChange}
-                />
+                ></textarea>
                 <textarea 
                     placeholder="Type something..." 
                     className="body-txtarea"

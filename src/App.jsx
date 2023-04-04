@@ -64,6 +64,10 @@ export default function App() {
               setEditable={setIsEditable}
               newId={Math.max(...notes.map(note => note.id)) + 1}
               oldId={noteClicked.id}
+              reset={() => setNewNote({
+                title: "",
+                body: ""
+              })}
             />
           }
         } else {

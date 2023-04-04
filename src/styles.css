@@ -157,7 +157,7 @@ main {
     flex-direction: column;
 }
 
-.title-txtbox {
+.title-txtarea {
     font-style: normal;
     font-weight: 400;
     font-size: 48px;
@@ -167,6 +167,7 @@ main {
     color: #9A9A9A;
     font-family: inherit;
     margin-bottom: 40px;
+    resize: none;
 }
 
 .body-txtarea {
