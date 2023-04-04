@@ -109,6 +109,12 @@ main {
 #edit-btn {
     background-image: url("assets/edit-icon.svg");
     background-size: 27px;
+    margin-right: 36px;
+}
+
+#delete-btn {
+    background-image: url("assets/delete-icon.svg");
+    background-size: 27px;
 }
 
 .note-detail-title {
@@ -151,7 +157,7 @@ main {
     flex-direction: column;
 }
 
-#title-txtbox {
+.title-txtbox {
     font-style: normal;
     font-weight: 400;
     font-size: 48px;
@@ -163,7 +169,7 @@ main {
     margin-bottom: 40px;
 }
 
-#body-txtarea {
+.body-txtarea {
     font-style: normal;
     font-weight: 400;
     font-size: 23px;
@@ -216,13 +222,13 @@ footer {
 }
 
 #header-search:hover, #header-info:hover, .back-btn:hover, 
-#edit-btn:hover, footer:hover, #save-btn:hover {
+#edit-btn:hover, footer:hover, #save-btn:hover, #delete-btn:hover {
     border: 2px solid skyblue;
     transform: scale(1.2);
 }
 
 #header-search:active, #header-info:active, .back-btn:active, 
-#edit-btn:active, footer:active, #save-btn:active {
+#edit-btn:active, footer:active, #save-btn:active, #delete-btn:active {
     transform: scale(.98);
 }
 

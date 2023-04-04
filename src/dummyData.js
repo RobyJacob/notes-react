@@ -13,4 +13,4 @@ function generateDummyData(n) {
     return dummyData
 }
 
-export default generateDummyData(20)
+export default generateDummyData(10)

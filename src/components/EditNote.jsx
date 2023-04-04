@@ -1,7 +1,27 @@
-export default function NewNote(props) {
+export default function EditNote(props) {
+    console.log(props)
+    function saveNote() {
+        if (props.note.title === "" || props.note.body === "") return
+
+        props.saveNote(prevState => {
+            let filteredState = [...prevState].filter(note => note.id !== props.oldId)
+            
+            return [
+                ...filteredState,
+                {
+                    id: props.newId,
+                    ...props.note
+                }
+            ]
+        })
+
+        props.setEditable(false)
+        props.clickNote(props.newId)
+    }
+
     function handleChange(evt) {
         const {name, value} = evt.target
-        props.updateNewNote(prevState => {
+        props.updateNote(prevState => {
             return {
                 ...prevState,
                 [name]: value
@@ -9,26 +29,8 @@ export default function NewNote(props) {
         })
     }
 
-    function saveNote() {
-        const newNote = props.newNote
-
-        if (newNote.title === "" || newNote.body === "") return
-
-        props.saveNote(prevState => {
-            return [
-                ...prevState,
-                {
-                    id: prevState.length + 1,
-                    ...newNote
-                }
-            ]
-        })
-
-        props.reset()
-    }
-
     return (
-        <div className="new-note">
+        <div className="edit-note">
             <div className="new-note-header">
                 <div 
                     className="control-btns back-btn"
@@ -43,17 +45,15 @@ export default function NewNote(props) {
             <div className="form">
                 <input 
                     type="text" 
-                    placeholder="Title" 
                     className="title-txtbox"
                     name="title"
-                    value={props.newNote.title}
+                    value={props.note.title}
                     onChange={handleChange}
                 />
                 <textarea 
-                    placeholder="Type something..." 
                     className="body-txtarea"
                     name="body"
-                    value={props.newNote.body}
+                    value={props.note.body}
                     onChange={handleChange}
                 ></textarea>
             </div>
