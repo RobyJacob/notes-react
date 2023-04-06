@@ -1,7 +1,6 @@
 import Header from "./components/Header";
 import Note from "./components/Note";
-import dummyData from "./dummyData";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './styles.css';
 import Footer from "./components/Footer";
 import EmptyNote from "./components/EmptyNote";
@@ -11,7 +10,7 @@ import NewNote from "./components/NewNote";
 import EditNote from "./components/EditNote";
 
 export default function App() {
-  const [notes, setNotes] = useState(dummyData)
+  const [notes, setNotes] = useState([])
   const [clickedNote, setClickedNote] = useState(0)
   const [isNewNote, setIsNewNote] = useState(false)
   const [newNote, setNewNote] = useState({
@@ -27,6 +26,12 @@ export default function App() {
   function setClick(noteId) {
     setClickedNote(noteId)
   }
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:9999/notes")
+      .then(res => res.json())
+      .then(data => setNotes(data))
+  }, [])
 
   function renderMain() {
     if (isNewNote) {
