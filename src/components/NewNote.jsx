@@ -9,22 +9,33 @@ export default function NewNote(props) {
         })
     }
 
-    function saveNote() {
+    async function saveNote() {
+        props.reset()
+
         const newNote = props.newNote
 
         if (newNote.title === "" || newNote.body === "") return
 
-        props.saveNote(prevState => {
-            return [
-                ...prevState,
-                {
-                    id: prevState.length + 1,
-                    ...newNote
-                }
-            ]
-        })
+        try {
+            const res = await fetch("http://127.0.0.1:9999/notes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(props.newNote)
+            })
+    
+            const savedNote = await res.json()
 
-        props.reset()
+            props.saveNote(prevState => {
+                return [
+                    ...prevState,
+                    savedNote
+                ]
+            })
+        } catch (ex) {
+            console.log(ex)
+        }
     }
 
     return (
