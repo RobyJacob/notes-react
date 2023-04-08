@@ -1,22 +1,32 @@
 export default function EditNote(props) {
-    function saveNote() {
+    async function saveNote() {
         if (props.note.title === "" || props.note.body === "") return
 
-        props.saveNote(prevState => {
-            let filteredState = [...prevState].filter(note => note.id !== props.oldId)
-            
-            return [
-                ...filteredState,
-                {
-                    id: props.newId,
-                    ...props.note
-                }
-            ]
+        const res = await fetch("http://127.0.0.1:9999/notes/" + props.noteId, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(props.note)
         })
 
-        props.setEditable(false)
-        props.clickNote(props.newId)
-        props.reset()
+        if (res.status === 202) {
+            const updatedNote = await res.json()
+    
+            props.saveNote(prevState => {
+                let filteredState = [...prevState].filter(note => note.id !== props.noteId)
+                
+                return [
+                    ...filteredState,
+                    updatedNote
+                ]
+            })
+    
+            props.setEditable(false)
+            props.clickNote(props.noteId)
+            props.reset()
+        }
+
     }
 
     function handleChange(evt) {
