@@ -7,11 +7,18 @@ export default function NoteDetail(props) {
         })
     }
 
-    function onDeleteClicked() {
-        props.updateNotes(prevState => {
-            return prevState.filter(note => note.id !== props.note.id)
-        })
-        props.onReturn()
+    async function onDeleteClicked() {
+        const res = await fetch("http://127.0.0.1:9999/notes/" + props.note.id, {
+            method: "DELETE"
+        });
+
+        if (res.status === 202) {
+            props.updateNotes(prevState => {
+                return prevState.filter(note => note.id !== props.note.id)
+            })
+
+            props.onReturn()
+        }
     }
 
     return (

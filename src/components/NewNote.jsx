@@ -25,16 +25,18 @@ export default function NewNote(props) {
                 body: JSON.stringify(props.newNote)
             })
     
-            const savedNote = await res.json()
-
-            props.saveNote(prevState => {
-                return [
-                    ...prevState,
-                    savedNote
-                ]
-            })
+            if (res.status === 201) {
+                const savedNote = await res.json()
+    
+                props.saveNote(prevState => {
+                    return [
+                        ...prevState,
+                        savedNote
+                    ]
+                })
+            }
         } catch (ex) {
-            console.log(ex)
+            alert("Error while saving")
         }
     }
 
