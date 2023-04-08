@@ -24,7 +24,10 @@ export default function EditNote(props) {
     
             props.setEditable(false)
             props.clickNote(props.noteId)
-            props.reset()
+            props.updateNote({
+                title: "",
+                body: ""
+            })
         }
 
     }
@@ -41,19 +44,21 @@ export default function EditNote(props) {
 
     function onReturn() {
         props.onReturn()
-        props.reset()
+        props.updateNote({
+            title: "",
+            body: ""
+        })
     }
 
     return (
         <div className="edit-note">
-            <div className="new-note-header">
+            <div className="note-detail-header">
                 <div 
                     className="control-btns back-btn"
                     onClick={onReturn}
                 ></div>
                 <div 
-                    className="control-btns" 
-                    id="save-btn"
+                    className="control-btns save-btn" 
                     onClick={saveNote}
                 ></div>
             </div>

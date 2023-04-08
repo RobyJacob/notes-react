@@ -8,6 +8,7 @@ import Please from 'pleasejs';
 import NoteDetail from "./components/NoteDetail";
 import NewNote from "./components/NewNote";
 import EditNote from "./components/EditNote";
+import Search from "./components/Search";
 
 export default function App() {
   const [notes, setNotes] = useState([])
@@ -18,6 +19,8 @@ export default function App() {
     body: ""
   })
   const [isEditable, setIsEditable] = useState(false)
+  const [isSearch, setIsSearch] = useState(false)
+  const [isInfo, setIsInfo] = useState(false)
 
   function generateRandomHexColor() {
     return Please.make_color({format: "hex"})
@@ -28,22 +31,24 @@ export default function App() {
   }
 
   useEffect(() => {
-    fetch("http://127.0.0.1:9999/notes")
-      .then(res => res.json())
-      .then(data => setNotes(data))
+    (async function() {
+      const res = await fetch("http://127.0.0.1:9999/notes")
+      const data = await res.json()
+      setNotes(data)
+    })()
   }, [])
 
   function renderMain() {
-    if (isNewNote) {
+    if (isSearch) {
+      return <Search 
+        onReturn={() => setIsSearch(false)}
+      />
+    } else if (isNewNote) {
       return <NewNote 
         onReturn={() => setIsNewNote(false)}
         updateNewNote={setNewNote}
         newNote={newNote}
         saveNote={setNotes}
-        reset={() => setNewNote({
-          title: "",
-          body: ""
-        })}
       />
     } else {
       if (notes.length > 0) {
@@ -69,10 +74,6 @@ export default function App() {
               clickNote={setClickedNote}
               setEditable={setIsEditable}
               noteId={noteClicked.id}
-              reset={() => setNewNote({
-                title: "",
-                body: ""
-              })}
             />
           }
         } else {
@@ -95,11 +96,15 @@ export default function App() {
 
   return (
     <div className="container">
-      <Header />
+      <Header 
+        onSearchClick={() => setIsSearch(true)}  
+        onInfoClicked={() => setIsInfo(true)}
+      />
       <main>
         {renderMain()}
       </main>
-      { clickedNote === 0 && !isNewNote && <Footer onClick={() => setIsNewNote(true)}/> }
+      { !isSearch && clickedNote === 0 && !isNewNote && 
+        <Footer onClick={() => setIsNewNote(true)}/> }
     </div>
   )
 }

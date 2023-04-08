@@ -10,7 +10,10 @@ export default function NewNote(props) {
     }
 
     async function saveNote() {
-        props.reset()
+        props.updateNewNote({
+            title: "",
+            body: ""
+        })
 
         const newNote = props.newNote
 
@@ -42,14 +45,13 @@ export default function NewNote(props) {
 
     return (
         <div className="new-note">
-            <div className="new-note-header">
+            <div className="note-detail-header">
                 <div 
                     className="control-btns back-btn"
                     onClick={props.onReturn}
                 ></div>
                 <div 
-                    className="control-btns" 
-                    id="save-btn"
+                    className="control-btns save-btn" 
                     onClick={saveNote}
                 ></div>
             </div>
