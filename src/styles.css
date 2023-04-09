@@ -64,8 +64,34 @@ header {
     /* border: 2px solid blue; */
 }
 
+.search-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-dropdown {
+    width: 360px;
+    max-height: 300px;
+    background-color: #CCCCCC;
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+
+.search-dropdown-item {
+    border-bottom: .5px solid black;
+    text-align: center;
+    padding: 12px;
+    font-family: inherit;
+    font-weight: 300;
+    font-size: 15px;
+    color: #000000;
+    cursor: pointer;
+}
+
 .search-txtbox {
-    margin: 40px auto 0 auto;
+    margin-top: 40px;
     width: 360px;
     height: 50px;
     background: #3B3B3B;

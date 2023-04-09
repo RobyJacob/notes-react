@@ -21,6 +21,10 @@ export default function App() {
   const [isEditable, setIsEditable] = useState(false)
   const [isSearch, setIsSearch] = useState(false)
   const [isInfo, setIsInfo] = useState(false)
+  const [searchNotes, setSearchNotes] = useState([])
+  const [searchPre, setSearchPre] = useState({
+    txt: ""
+  })
 
   function generateRandomHexColor() {
     return Please.make_color({format: "hex"})
@@ -42,6 +46,11 @@ export default function App() {
     if (isSearch) {
       return <Search 
         onReturn={() => setIsSearch(false)}
+        searchNotes={searchNotes}
+        setSearchNotes={setSearchNotes}
+        setSearchPre={setSearchPre}
+        searchPre={searchPre}
+        clickNote={setClickedNote}
       />
     } else if (isNewNote) {
       return <NewNote 
