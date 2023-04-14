@@ -42,20 +42,12 @@ export default function EditNote(props) {
         })
     }
 
-    function onReturn() {
-        props.onReturn()
-        props.updateNote({
-            title: "",
-            body: ""
-        })
-    }
-
     return (
         <div className="edit-note">
             <div className="note-detail-header">
                 <div 
                     className="control-btns back-btn"
-                    onClick={onReturn}
+                    onClick={props.onReturn}
                 ></div>
                 <div 
                     className="control-btns save-btn" 

@@ -26,6 +26,23 @@ export default function App() {
     txt: ""
   })
 
+  function reset() {
+    setClickedNote(0)
+    setIsNewNote(false)
+    setNewNote({ title: "", body: "" })
+    setIsEditable(false)
+    setIsSearch(false)
+    setIsInfo(false)
+    setSearchNotes([])
+    setSearchPre({ txt: "" })
+  }
+
+  function isHome() {
+    return clickedNote === 0 &&
+      !isNewNote && !isEditable && !isSearch &&
+      !isInfo
+  }
+
   function generateRandomHexColor() {
     return Please.make_color({format: "hex"})
   }
@@ -45,7 +62,7 @@ export default function App() {
   function renderMain() {
     if (isSearch) {
       return <Search 
-        onReturn={() => setIsSearch(false)}
+        onReturn={reset}
         searchNotes={searchNotes}
         setSearchNotes={setSearchNotes}
         setSearchPre={setSearchPre}
@@ -54,7 +71,7 @@ export default function App() {
       />
     } else if (isNewNote) {
       return <NewNote 
-        onReturn={() => setIsNewNote(false)}
+        onReturn={reset}
         updateNewNote={setNewNote}
         newNote={newNote}
         saveNote={setNotes}
@@ -66,7 +83,7 @@ export default function App() {
           if (!isEditable) {
             return  <NoteDetail
               note={noteClicked}
-              onReturn={() => setClickedNote(0)}
+              onReturn={reset}
               setEditable={setIsEditable}
               setNote={setNewNote}
               updateNotes={setNotes}
@@ -74,10 +91,7 @@ export default function App() {
           } else {
             return <EditNote
               note={newNote}
-              onReturn={() => {
-                setClickedNote(0)
-                setIsEditable(false)
-              }}
+              onReturn={reset}
               updateNote={setNewNote}
               saveNote={setNotes}
               clickNote={setClickedNote}
@@ -86,6 +100,8 @@ export default function App() {
             />
           }
         } else {
+          // TODO: Display notes in sorted order of their creation
+          
           return notes.map(note => {
             let randomColor = generateRandomHexColor()
 
@@ -93,7 +109,10 @@ export default function App() {
               key={note.id}
               note={note} 
               color={randomColor}
-              onClick={() => setClick(note.id)}
+              onClick={() => {
+                reset()
+                setClick(note.id)
+              }}
             />
           })
         }
@@ -106,14 +125,24 @@ export default function App() {
   return (
     <div className="container">
       <Header 
-        onSearchClick={() => setIsSearch(true)}  
-        onInfoClicked={() => setIsInfo(true)}
+        onSearchClick={() => {
+          reset()
+          setIsSearch(true)
+        }}  
+        onInfoClicked={() => {
+          reset()
+          setIsInfo(true)
+        }}
       />
       <main>
         {renderMain()}
       </main>
-      { !isSearch && clickedNote === 0 && !isNewNote && 
-        <Footer onClick={() => setIsNewNote(true)}/> }
+      { isHome() && <Footer 
+        onClick={() => {
+          reset()
+          setIsNewNote(true)
+        }} 
+      /> }
     </div>
   )
 }

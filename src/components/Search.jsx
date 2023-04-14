@@ -1,10 +1,11 @@
 export default function Search(props) {
     async function searchPrefix(prefix) {
         if (prefix.length >= 3) {
+            prefix = prefix.replace("\s*", "%20")
             const res = await fetch("http://127.0.0.1:9999/notes?title_pre=" + prefix)
             const notes = await res.json()
-            if (notes.length > 0)
-                props.setSearchNotes(notes)
+            if (notes.length > 0) props.setSearchNotes(notes)
+            else props.setSearchNotes([])
         } else if (props.searchNotes.length !== 0) {
             props.setSearchNotes([])
         }
@@ -28,12 +29,8 @@ export default function Search(props) {
                     key={note.id} 
                     className="search-dropdown-item"
                     onClick={() => {
-                        props.clickNote(note.id)
                         props.onReturn()
-                        props.setSearchNotes([])
-                        props.setSearchPre({
-                            txt: ""
-                        })
+                        props.clickNote(note.id)
                     }}
                     >
                     {note.title}
@@ -42,7 +39,6 @@ export default function Search(props) {
         })
     }
 
-    console.log(props.searchNotes)
     return (
         <div className="search">
             <div className="note-detail-header">
