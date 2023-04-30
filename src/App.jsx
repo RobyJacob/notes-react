@@ -1,7 +1,8 @@
 import Header from "./components/Header";
 import Note from "./components/Note";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './styles.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./components/Footer";
 import EmptyNote from "./components/EmptyNote";
 import Please from 'pleasejs';
@@ -9,6 +10,7 @@ import NoteDetail from "./components/NoteDetail";
 import NewNote from "./components/NewNote";
 import EditNote from "./components/EditNote";
 import Search from "./components/Search";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function App() {
   const [notes, setNotes] = useState([])
@@ -25,6 +27,7 @@ export default function App() {
   const [searchPre, setSearchPre] = useState({
     txt: ""
   })
+  const toastId = useRef(null)
 
   function reset() {
     setClickedNote(0)
@@ -47,22 +50,33 @@ export default function App() {
     return Please.make_color({format: "hex"})
   }
 
-  function setClick(noteId) {
-    setClickedNote(noteId)
+  function showToast(msg) {
+    if (!toast.isActive(toastId.current)) {
+      toastId.current = toast.error(msg)
+    }
+    return toastId.current
   }
 
   useEffect(() => {
     (async function() {
-      const res = await fetch("http://127.0.0.1:9999/notes")
-      const data = await res.json()
-      setNotes(data)
+      try {
+        const res = await fetch("http://127.0.0.1:9999/notes")
+        if (res.status !== 200) {
+          showToast(res.body)
+          return
+        }
+        const data = await res.json()
+        setNotes(data.responseObj)
+      } catch (ex) {
+        showToast(ex.toString())
+      }
     })()
   }, [])
 
   function renderMain() {
     if (isSearch) {
       return <Search 
-        onReturn={reset}
+        onReturn={() => setIsSearch(false)}
         searchNotes={searchNotes}
         setSearchNotes={setSearchNotes}
         setSearchPre={setSearchPre}
@@ -71,7 +85,7 @@ export default function App() {
       />
     } else if (isNewNote) {
       return <NewNote 
-        onReturn={reset}
+        onReturn={() => setIsNewNote(false)}
         updateNewNote={setNewNote}
         newNote={newNote}
         saveNote={setNotes}
@@ -83,15 +97,16 @@ export default function App() {
           if (!isEditable) {
             return  <NoteDetail
               note={noteClicked}
-              onReturn={reset}
+              onReturn={() => setClickedNote(0)}
               setEditable={setIsEditable}
               setNote={setNewNote}
               updateNotes={setNotes}
+              showToast={(msg) => showToast(msg)}
             />
           } else {
             return <EditNote
               note={newNote}
-              onReturn={reset}
+              onReturn={() => setIsEditable(false)}
               updateNote={setNewNote}
               saveNote={setNotes}
               clickNote={setClickedNote}
@@ -110,8 +125,8 @@ export default function App() {
               note={note} 
               color={randomColor}
               onClick={() => {
-                reset()
-                setClick(note.id)
+                // reset()
+                setClickedNote(note.id)
               }}
             />
           })
@@ -126,7 +141,8 @@ export default function App() {
     <div className="container">
       <Header 
         onSearchClick={() => {
-          reset()
+          setSearchNotes([])
+          setSearchPre({ txt: "" })
           setIsSearch(true)
         }}  
         onInfoClicked={() => {
@@ -143,6 +159,11 @@ export default function App() {
           setIsNewNote(true)
         }} 
       /> }
+      <ToastContainer 
+        autoClose={3000}
+        position="bottom-center"
+        theme="dark"
+      />
     </div>
   )
 }

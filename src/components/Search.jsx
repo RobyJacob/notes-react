@@ -3,7 +3,8 @@ export default function Search(props) {
         if (prefix.length >= 3) {
             prefix = prefix.replace("\s*", "%20")
             const res = await fetch("http://127.0.0.1:9999/notes?title_pre=" + prefix)
-            const notes = await res.json()
+            const data = await res.json()
+            const notes = data.responseObj
             if (notes.length > 0) props.setSearchNotes(notes)
             else props.setSearchNotes([])
         } else if (props.searchNotes.length !== 0) {

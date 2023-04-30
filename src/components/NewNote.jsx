@@ -29,12 +29,12 @@ export default function NewNote(props) {
             })
     
             if (res.status === 201) {
-                const savedNote = await res.json()
+                const data = await res.json()
     
                 props.saveNote(prevState => {
                     return [
                         ...prevState,
-                        savedNote
+                        data.responseObj
                     ]
                 })
             }
