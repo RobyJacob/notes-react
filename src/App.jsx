@@ -89,6 +89,7 @@ export default function App() {
         updateNewNote={setNewNote}
         newNote={newNote}
         saveNote={setNotes}
+        showToast={showToast}
       />
     } else {
       if (notes.length > 0) {
@@ -101,7 +102,7 @@ export default function App() {
               setEditable={setIsEditable}
               setNote={setNewNote}
               updateNotes={setNotes}
-              showToast={(msg) => showToast(msg)}
+              showToast={showToast}
             />
           } else {
             return <EditNote
@@ -110,7 +111,6 @@ export default function App() {
               updateNote={setNewNote}
               saveNote={setNotes}
               clickNote={setClickedNote}
-              setEditable={setIsEditable}
               noteId={noteClicked.id}
             />
           }

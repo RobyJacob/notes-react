@@ -13,15 +13,13 @@ export default function NoteDetail(props) {
         });
 
         if (res.status === 202) {
-            console.log(props)
+            const data = await res.json()
+            
             props.updateNotes(prevState => {
                 return prevState.filter(note => note.id !== props.note.id)
             })
 
-            // const data = await res.json()
-
-            // console.log(props.showToast())
-            // props.showToast(data.message)
+            props.showToast(data.message)
             props.onReturn()
         }
     }

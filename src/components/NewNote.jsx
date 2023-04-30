@@ -37,6 +37,8 @@ export default function NewNote(props) {
                         data.responseObj
                     ]
                 })
+
+                props.showToast(data.message)
             }
         } catch (ex) {
             alert("Error while saving")

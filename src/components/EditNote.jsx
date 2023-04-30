@@ -18,11 +18,11 @@ export default function EditNote(props) {
                 
                 return [
                     ...filteredState,
-                    updatedNote
+                    updatedNote.responseObj
                 ]
             })
     
-            props.setEditable(false)
+            props.onReturn()
             props.clickNote(props.noteId)
             props.updateNote({
                 title: "",
