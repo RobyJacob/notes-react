@@ -6,7 +6,10 @@ export default function Search(props) {
             const data = await res.json()
             const notes = data.responseObj
             if (notes.length > 0) props.setSearchNotes(notes)
-            else props.setSearchNotes([])
+            else {
+                props.setSearchNotes([])
+                props.showToast(data.message)
+            }
         } else if (props.searchNotes.length !== 0) {
             props.setSearchNotes([])
         }

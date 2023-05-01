@@ -22,6 +22,7 @@ export default function EditNote(props) {
                 ]
             })
     
+            props.showToast(updatedNote.message)
             props.onReturn()
             props.clickNote(props.noteId)
             props.updateNote({

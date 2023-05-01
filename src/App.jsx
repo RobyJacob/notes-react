@@ -82,6 +82,7 @@ export default function App() {
         setSearchPre={setSearchPre}
         searchPre={searchPre}
         clickNote={setClickedNote}
+        showToast={showToast}
       />
     } else if (isNewNote) {
       return <NewNote 
@@ -112,6 +113,7 @@ export default function App() {
               saveNote={setNotes}
               clickNote={setClickedNote}
               noteId={noteClicked.id}
+              showToast={showToast}
             />
           }
         } else {
