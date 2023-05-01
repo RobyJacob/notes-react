@@ -25,7 +25,7 @@ export default function NewNote(props) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(props.newNote)
+                body: JSON.stringify(newNote)
             })
     
             if (res.status === 201) {
@@ -41,7 +41,7 @@ export default function NewNote(props) {
                 props.showToast(data.message)
             }
         } catch (ex) {
-            alert("Error while saving")
+            props.showToast("Error while saving")
         }
     }
 

@@ -143,8 +143,7 @@ export default function App() {
     <div className="container">
       <Header 
         onSearchClick={() => {
-          setSearchNotes([])
-          setSearchPre({ txt: "" })
+          reset()
           setIsSearch(true)
         }}  
         onInfoClicked={() => {
